@@ -2,16 +2,49 @@
 
 A base setup for creating a running virtual machine using [Vagrant](https://www.vagrantup.com/) and provisioning [Sonatype Nexus](http://www.sonatype.org/nexus/) on the VM using [Ansible](http://docs.ansible.com/index.html).
 
-# Getting Started
+# Getting Started (first-time configuration)
 
 1. [Install VirtualBox]()
-2. [Install Vagrant](https://docs.vagrantup.com/v2/installation/index.html)
-3. [Install Ansible](http://docs.ansible.com/intro_installation.html#installation) (I recommend [Homebrew](http://brew.sh/) for OS X)
-4. Open a terminal
-5. ````git clone git@github.com:JGailor/nexus-vagrant-ansible.git````
-6. ````cd nexus-vagrant-ansible````
-7. ````vagrant up````
+1. [Install Vagrant](https://docs.vagrantup.com/v2/installation/index.html)
+1. [Install Ansible](http://docs.ansible.com/intro_installation.html#installation) (I recommend [Homebrew](http://brew.sh/) for OS X)
+1. Open a terminal
+    - ````git clone git@github.com:JGailor/nexus-vagrant-ansible.git````
+    - ````cd nexus-vagrant-ansible````
+    - ````vagrant up````
+    - `vagrant ssh`
+    - `sudo -u jenkins -i`
+    - prepare Jenkins for configuration restore
+        - create a backup directory  
+        `mkdir /var/lib/jenkins/backup`  
+        - copy our version-controlled backup file for further restoring Jenkins configuration  
+        `cp /vagrant/FULL-2015-04-01_18-42.zip /var/lib/jenkins/backup`
+        - extract the archive  
+        `cd /var/lib/jenkins/backup/`  
+        `jar -xf FULL-2015-04-01_18-42.zip`
+    - set up ssh key so that Jenkins can connect to Github
+        - `ssh-keygen -t rsa -C "your_email@example.com"`  
+        to create a new ssh key, using the provided email as a label. Accept defaults.
+        - `cat ~/.ssh/id_rsa.pub`
+        - copy the output of the above command into the clipboard
+        - go to `https://github.com/your-github-user-name/your-github-repo/settings/keys`
+        - add a new deploy key with the `Title` of your choosing and paste the contents  
+        of ~/.ssh/id_rsa.pub from your clipboard as the `Key`
+        - test the connection by running  
+        `ssh -T git@github.com`  
+            - when prompted, type `yes`
+            - you are done when the output is  
+            `Hi username/repository! You've successfully authenticated, but GitHub does not provide shell access.`
+    - configure Nexus access for Maven
+        - make sure you are logged in as vagrant user
+        - `sudo cp /vagrant/settings-template.xml /vagrant/settings.xml`
+        - edit settings.xml to replace the username and password with the credentials of the Nexus user permitted to deploy artifacts
+    - go to `http://192.168.50.7:8080/pluginManager/available` and install `Thin Backup` plugin
+    - configure backup directory at `http://192.168.50.7:8080/thinBackup/backupsettings` to be `/var/lib/jenkins/backup`
+    - go to `http://192.168.50.7:8080/thinBackup/` and select `Restore`
+    - select the restore file
+    - check `Restore plugins` option
+    - push `Restore` button
 
-You should now have a provisioned VM running Nexus.  It is configured so that your Virtual Machine is accessible at ````192.168.50.4````
+You should now have a provisioned VM running Jenkins.  It is configured so that your Virtual Machine is accessible at ````192.168.50.7````
 
-To access the Nexus server, point your browser at http://192.168.50.4:8081/nexus/
+To access the Nexus server, point your browser at http://192.168.50.4:8080
