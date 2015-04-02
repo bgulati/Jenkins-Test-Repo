@@ -8,9 +8,9 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
 1. [Install Vagrant](https://docs.vagrantup.com/v2/installation/index.html)
 1. [Install Ansible](http://docs.ansible.com/intro_installation.html#installation) (I recommend [Homebrew](http://brew.sh/) for OS X)
 1. Open a terminal
-    - ````git clone git@github.com:JGailor/nexus-vagrant-ansible.git````
-    - ````cd nexus-vagrant-ansible````
-    - ````vagrant up````
+    - `git clone https://github.com/gitlevich/JenkinsHostSetup`
+    - `cd nexus-vagrant-ansible`
+    - `vagrant up`
     - `vagrant ssh`
     - `sudo -u jenkins -i`
     - prepare Jenkins for configuration restore
@@ -35,9 +35,8 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
             - you are done when the output is  
             `Hi username/repository! You've successfully authenticated, but GitHub does not provide shell access.`
     - configure Nexus access for Maven
-        - make sure you are logged in as vagrant user
-        - `sudo cp /vagrant/settings-template.xml /vagrant/settings.xml`
-        - edit settings.xml to replace the username and password with the credentials of the Nexus user permitted to deploy artifacts
+        - `cp /vagrant/settings-template.xml /var/lib/jenkins/.m2/settings.xml`
+        - edit the copied settings.xml to replace the username and password with the credentials of the Nexus user permitted to deploy artifacts
     - go to `http://192.168.50.7:8080/pluginManager/available` and install `Thin Backup` plugin
     - configure backup directory at `http://192.168.50.7:8080/thinBackup/backupsettings` to be `/var/lib/jenkins/backup`
     - go to `http://192.168.50.7:8080/thinBackup/` and select `Restore`

@@ -26,6 +26,14 @@
       - jenkins
       - git
 
+  - name: create jenkins user has an .m2 directory
+    file: path=/var/lib/jenkins/.m2 state=directory
+    sudo: true
+
+  - name: make /var/lib/jenkins/.m2 directory property of "jenkins" user/group
+    file: path=/var/lib/jenkins/.m2 group=jenkins owner=jenkins recurse=true
+    sudo: true
+
   - name: Check if Jenkins is running
     stat: path=/var/run/jenkins/jenkins.pid
     register: jenkins_pid
