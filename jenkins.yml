@@ -30,8 +30,8 @@
     file: path=/var/lib/jenkins/.m2 state=directory
     sudo: true
 
-  - name: make /var/lib/jenkins/.m2 directory property of "jenkins" user/group
-    file: path=/var/lib/jenkins/.m2 group=jenkins owner=jenkins recurse=true
+  - name: make /var/lib directory property of "jenkins" user/group (restore plugin needs to create/delete directory there)
+    file: path=/var/lib group=jenkins owner=jenkins recurse=true
     sudo: true
 
   - name: Check if Jenkins is running
