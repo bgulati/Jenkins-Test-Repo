@@ -17,7 +17,7 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
         - create a backup directory  
         `mkdir /var/lib/jenkins/backup`  
         - copy our version-controlled backup file for further restoring Jenkins configuration  
-        `cp /vagrant/backup_20150402_0021.zip /var/lib/jenkins/backup`
+        `cp /vagrant/backup_20150402_2053.tar.gz /var/lib/jenkins/backup`
     - set up ssh key so that Jenkins can connect to Github
         - `ssh-keygen -t rsa -C "your_email@example.com"`  
         to create a new ssh key, using the provided email as a label. Accept defaults.

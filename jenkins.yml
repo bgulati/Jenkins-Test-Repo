@@ -25,6 +25,7 @@
       - oracle-java8-installer
       - jenkins
       - git
+      - maven
 
   - name: create jenkins user has an .m2 directory
     file: path=/var/lib/jenkins/.m2 state=directory
