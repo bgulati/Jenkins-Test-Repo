@@ -37,12 +37,11 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
     - configure Nexus access for Maven
         - `cp /vagrant/settings-template.xml /var/lib/jenkins/.m2/settings.xml`
         - edit the copied settings.xml to replace the username and password with the credentials of the Nexus user permitted to deploy artifacts
-    - go to `http://192.168.50.7:8080/pluginManager/available` and install `Thin Backup` plugin
-    - configure backup directory at `http://192.168.50.7:8080/thinBackup/backupsettings` to be `/var/lib/jenkins/backup`
-    - go to `http://192.168.50.7:8080/thinBackup/` and select `Restore`
-    - select the restore file
-    - check `Restore plugins` option
-    - push `Restore` button
+    - restore jenkins to source-controlled baseline configuration
+        - go to `http://192.168.50.7:8080/pluginManager/available` and install `Backup plugin` plugin
+        - configure backup directory at `http://192.168.50.7:8080/backup/backupsettings` to be `/var/lib/jenkins/backup`
+        - go to `http://192.168.50.7:8080/backup/launchrestore`, choose the restore file you copied earlier and select `Launch restore`
+        - push `Launch restore` button
 
 You should now have a provisioned VM running Jenkins.  It is configured so that your Virtual Machine is accessible at ````192.168.50.7````
 
