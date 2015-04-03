@@ -21,6 +21,7 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
     - set up ssh key so that Jenkins can connect to Github
         - `ssh-keygen -t rsa -C "your_email@example.com"`  
         to create a new ssh key, using the provided email as a label. Accept defaults.
+        Ensure that you change the email address
         - `cat ~/.ssh/id_rsa.pub`
         - copy the output of the above command into the clipboard
         - go to `https://github.com/your-github-user-name/your-github-repo/settings/keys`
@@ -39,7 +40,10 @@ A base setup for creating a running virtual machine using [Vagrant](https://www.
         - configure backup directory at `http://192.168.50.7:8080/backup/backupsettings` to be `/var/lib/jenkins/backup`
         - go to `http://192.168.50.7:8080/backup/launchrestore`, choose the restore file you copied earlier and select `Launch restore`
         - push `Launch restore` button
+    - Restart Jenkins
+        - make sure you are logged in as `vagrant`
+        - run the command `sudo service jenkins restart`
 
 You should now have a provisioned VM running Jenkins.  It is configured so that your Virtual Machine is accessible at ````192.168.50.7````
 
-To access the Nexus server, point your browser at http://192.168.50.4:8080
+To access the Jenkins server, point your browser at http://192.168.50.7:8080
